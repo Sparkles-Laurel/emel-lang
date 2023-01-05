@@ -49,15 +49,19 @@ bool emel_lang::tokens::TokenStream::__process_string() {
         // Check if token is a keyword.
         switch(tok) {
             case "and":
+            case "&&":
                 tokens.push_back(Token(TokenType::AND, tok, 0, 0));
                 break;
             case "or":
+            case "||":
                 tokens.push_back(Token(TokenType::OR, tok, 0, 0));
                 break;
             case "xor":
+            case "^^":
                 tokens.push_back(Token(TokenType::XOR, tok, 0, 0));
                 break;
             case "not":
+            case "!":
                 tokens.push_back(Token(TokenType::NOT, tok, 0, 0));
                 break;
             case "bool":
@@ -73,15 +77,17 @@ bool emel_lang::tokens::TokenStream::__process_string() {
                 tokens.push_back(Token(TokenType::SET, tok, 0, 0));
                 break;
             case "union":
+            case "unite":
                 tokens.push_back(Token(TokenType::UNION, tok, 0, 0));
                 break;
             case "intersect":
+            case "intsct":
                 tokens.push_back(Token(TokenType::INTERSECT, tok, 0, 0));
                 break;
-            case "difference":
+            case "diff":
                 tokens.push_back(Token(TokenType::DIFFERENCE, tok, 0, 0));
                 break;
-            case "symmetric_difference":
+            case "delta":
                 tokens.push_back(Token(TokenType::SYMMETRIC_DIFFERENCE, tok, 0, 0));
                 break;
             case "if":
@@ -99,8 +105,8 @@ bool emel_lang::tokens::TokenStream::__process_string() {
             case "no":
                 tokens.push_back(Token(TokenType::NO, tok, 0, 0));
                 break;
-            case "null":
-                tokens.push_back(Token(TokenType::NULL, tok, 0, 0));
+            case "nil":
+                tokens.push_back(Token(TokenType::__NULL, tok, 0, 0));
                 break;
             default:
                 // Check if token is a number.

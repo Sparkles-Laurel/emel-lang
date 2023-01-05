@@ -36,10 +36,10 @@ namespace emel_lang {
             // Keywords.
             AND, OR, XOR, NOT, BOOL, FN, POLY, SET, 
             UNION, INTERSECT, DIFFERENCE, SYMMETRIC_DIFFERENCE, 
-            IF, ELSE, ELIF, YES, NO, NULL,
+            IF, ELSE, ELIF, YES, NO, __NULL,
 
             // End of file.
-            EOF
+            __EOF
         };
         /// <summary>
         /// Represents a stream of tokens.

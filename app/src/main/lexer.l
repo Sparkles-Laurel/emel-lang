@@ -47,7 +47,9 @@
     else if(strcmp(yytext, "imaginary") == 0) return IMAGINARY;
     else if(strcmp(yytext, "complex") == 0) return COMPLEX;
     else if(strcmp(yytext, "type") == 0) return TYPE;
-    else if(strcmp(yytext, "sqrt") == 0 || strcmp(yytext, "root") == 0) return ROOT;
+    else if(strcmp(yytext, "sqrt") == 0 || strcmp(yytext, "root") == 0 || strcmp(yytext, "rt") == 0) return ROOT;
+    else if(strcmp(yytext, "pw")) return POWER;
+ 
     else if(strcmp(yytext, "poly") == 0) return POLY;
     else yylval.str = strdup(yytext);
     return IDENTIFIER;

@@ -1,86 +1,111 @@
-%token NUMBER ID IF ELSE IN UNION INTERSECTION DIFFERENCE SYMMETRIC_DIFFERENCE
-%token RT NRT POW
-%token '+' '-' '*' '/' '^' '<' '>' '<=' '>=' '==' '!=' '&&' '||'
-%token '-' '+' '!' 'sin' 'cos' 'tan' 'cot' 'sec' 'csc' 'log' 'ln' 'sqrt' 'cbrt' 'abs'
-%token '(' ')' '{' '}' ',' ';' '=' 'is'
+%{
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+%}
+
+%union {
+    char* str;
+    double num;
+}
+
+%token <str> IDENTIFIER TYPE
+%token <num> NUMBER
+%token SEMICOLON LPAREN RPAREN COMMA ASSIGNMENT
+%token PLUS MINUS TIMES DIVIDE POWER ROOT
+%token LT GT EQ LTEQ GTEQ NOTEQ
+%token IF IS THEN ELSE
+%token AND OR NOT
+%token SET INTERSECTION UNION DIFFERENCE SYMDIFF SETBUILDER
+%token POLY FN LET BOOL
+%token REAL INTEGER NATURAL RATIONAL IMAGINARY COMPLEX
+%token <str> LETTERS
+%token EOL
+
+%start program
+%left OR
+%left AND
+%right NOT
+%left EQ NOTEQ LT GT LTEQ GTEQ
+%left PLUS MINUS
+%left TIMES DIVIDE
+%left POWER ROOT
+%left UMINUS
 
 %%
 
-program : statement_list
+program: statement
+        | program statement
 
-statement_list : statement
-               | statement_list ';' statement
+statement: EOL
+        | expression EOL
+        | assignment EOL
+        | declaration EOL
+        | definition EOL
 
-statement : expression
-          | assignment
-          | set_assignment
-          | function_definition
+assignment: LET LETTERS "is" IDENTIFIER "equals" expression
 
-expression : NUMBER
-           | ID
-           | '(' expression ')'
-           | expression BINARY_OP expression
-           | UNARY_OP expression
-           | ID '(' arguments ')'
-           | ID IF expression ELSE expression
-           | variable '*' variable
-           | expression POW expression
-           | RT expression
-           | NUMBER RT expression
-           | '(' expression ')' RT expression
-           | '(' expression ')' RT '(' expression ')' 
-           | expression RT expression
-           | expression RT '(' expression ')'
-           | expression RT NUMBER
-           | set_expression
-           | cartesian_product
+declaration: TYPE IDENTIFIER "is" expression
 
-arguments : expression
-          | arguments ',' expression
+definition: FN IDENTIFIER LPAREN IDENTIFIER RPAREN "is" TYPE "->" TYPE
+            | FN IDENTIFIER LPAREN IDENTIFIER RPAREN "if" condition "is" expression
 
-set_expression : ID
-               | '{' '}'
-               | '{' set_values '}'
-               | '{' set_builder '}'
-               | set_operation
+condition: expression EQ expression
+            | expression NOTEQ expression
+            | expression LT expression
+            | expression GT expression
+            | expression LTEQ expression
+            | expression GTEQ expression
 
-set_values : expression
-           | set_values ',' expression
+expression: IDENTIFIER
+            | NUMBER
+            | LETTERS LPAREN IDENTIFIER "," IDENTIFIER ")"
+            | function
+            | set
+            | bool
+            | "-" %prec UMINUS expression
+            | expression PLUS expression
+            | expression MINUS expression
+            | expression TIMES expression
+            | expression DIVIDE expression
+            | expression POWER expression
+            | expression ROOT expression
+            | expression INTERSECTION expression
+            | expression UNION expression
+            | expression DIFFERENCE expression
+            | expression SYMDIFF expression
 
-set_builder : expression '|' ID IN set_expression IF expression
+function: FN IDENTIFIER LPAREN IDENTIFIER RPAREN {
+            printf("Defining function %s with parameter %s\n", $2, $4);
+        } "is" expression {
+            printf("Function expression\n");
+        }
+        | FN IDENTIFIER LPAREN IDENTIFIER RPAREN "if" condition {
+            printf("Defining function %s with parameter %s and conditional expression\n", $2, $4);
+        } "is" expression {
+            printf("Function expression\n");
+        }
 
-set_operation : set_expression UNION set_expression
-              | set_expression INTERSECTION set_expression
-              | set_expression DIFFERENCE set_expression
-              | set_expression SYMMETRIC_DIFFERENCE set_expression
+set: SET IDENTIFIER "=" "{" set_elements "}"
 
-cartesian_product : set_expression 'x' set_expression
-                  | set_expression '*' set_expression
+set_elements: expression {
+                printf("Adding expression to set\n");
+            }
+            | set_elements "," expression {
+                printf("Adding expression to set\n");
+            }
 
-assignment : ID '=' expression
-           | ID 'is' set_expression
-
-set_assignment : ID '=' set_expression
-
-function_definition : FUNCTION ID '(' ID ')' 'is' TYPE_ARROW set_expression
-                    | FUNCTION ID '(' ID ')' 'is' TYPE_ARROW set_expression '=' expression
-                    | FUNCTION ID '(' ')' 'is' TYPE_ARROW set_expression
-                    | FUNCTION ID '(' ')' 'is' TYPE_ARROW set_expression '=' expression
-
-ID : [a-zA-Z][a-zA-Z0-9]*
-NUMBER : [0-9]+
-VARIABLE : ID | NUMBER
-
-variable : ID
-
-BINARY_OP : '+' | '-' | '*' | '/' | '^' | '<' | '>' | '<=' | '>=' | '==' | '!=' | '&&' | '||'
-
-UNARY_OP : '-' | '+' | '!' | 'sin' | 'cos' | 'tan' | 'cot' | 'sec' | 'csc' | 'log' | 'ln' | 'sqrt' | 'cbrt' | 'abs'
-
-POW : '^' | 'pw' | 'xpwn'
-
-RT : 'rt' | 'nrt'
+bool: BOOL IDENTIFIER "=" expression
 
 %%
 
-/* C code section */
+int main(void) {
+    yyparse();
+    return 0;
+}
+
+int yyerror(const char* message) {
+    fprintf(stderr, "Error: %s\n", message);
+    return 1;
+}

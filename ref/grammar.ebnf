@@ -1,0 +1,27 @@
+program        = { statement } .
+statement      = ( EOL | expression | assignment | declaration | definition ) EOL .
+assignment     = "let" LETTERS "is" IDENTIFIER "equals" expression .
+declaration    = TYPE IDENTIFIER "is" expression .
+definition     = "fn" IDENTIFIER "(" IDENTIFIER ")" "is" TYPE "=>" TYPE |
+                 "fn" IDENTIFIER "(" IDENTIFIER ")" "if" condition "is" expression .
+condition      = expression ( "==" | "!=" | "<" | ">" | "<=" | ">=" ) expression .
+expression     = IDENTIFIER |
+                 NUMBER |
+                 LETTERS "(" IDENTIFIER "," IDENTIFIER ")" |
+                 function |
+                 set |
+                 bool |
+                 "-" expression |
+                 expression ( "+" | "-" | "*" | "/" | "^" ) expression |
+                 expression ( "|" | "&" | "~" ) expression .
+function       = IDENTIFIER "(" [ expression { "," expression } ] ")" .
+set            = ( "set" | "intersection" | "union" | "difference" | "symdiff" ) "(" expression "," expression ")" |
+                 "setbuilder" "{" IDENTIFIER ":" expression "|" condition "}" .
+bool           = "true" | "false" .
+IDENTIFIER     = ( "_" | LETTER ) { "_" | LETTER | DIGIT } .
+TYPE           = "real" | "integer" | "natural" | "rational" | "imaginary" | "complex" .
+LETTERS        = LETTER { LETTER | DIGIT | "_" } .
+NUMBER         = DIGIT { DIGIT } [ "." DIGIT { DIGIT } ] .
+DIGIT          = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" .
+LETTER         = ( "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z" | "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z" ) .
+EOL            = "\n" | "\r\n" .

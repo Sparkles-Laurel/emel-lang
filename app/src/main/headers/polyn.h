@@ -14,7 +14,7 @@ namespace emel_lang {
         typedef struct __Term {
             std::vector<Coefficient> coefficients;
             std::optional<std::string> variable;
-            static Term Parse(std::string source);
+            struct __Term Parse(std::string source);
         } Term;
 
         class Polynomial {

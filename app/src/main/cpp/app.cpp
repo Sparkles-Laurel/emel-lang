@@ -4,14 +4,10 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include "app.h"
+#include <string>
+#include "../headers/app.h"
 
-std::string emel_lang::Greeter::greeting() {
-    return std::string("Hello, World!");
-}
-
-int main () {
-    emel_lang::Greeter greeter;
-    std::cout << greeter.greeting() << std::endl;
-    return 0;
+int main(int argc, char **argv) {
+    std::cout << "Hello, world!" << std::endl;
+    return 0;   
 }

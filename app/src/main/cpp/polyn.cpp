@@ -7,12 +7,11 @@
 */
 // See LICENSE for licensing information.
 
-#include "polyn.h"
+#include "../headers/polyn.h"
 
 namespace emel_lang {
     namespace data {
-        Polynomial::Polynomial(std::vector<Term> terms): m_terms(terms) {};
-        
+               
         Term Term::Parse(std::string source) {
             // Root is denoted by rt. Powers are denoted by ^ or pw.
             // Coefficients are denoted like 2x where 2 is the coefficient and x is the variable...
@@ -37,7 +36,7 @@ namespace emel_lang {
                         power_string += source[j];
                     }
                     // Add the coefficient to the list.
-                    coefficients.push_back(Coefficient{std::stod(coefficient_string), std::stoi(power_string)});
+                    coefficients.push_back(Coefficient{std::stod(coefficient_string), static_cast<unsigned int>(std::stoi(power_string))});
                     coefficient_string = "";
                 } else if(source[i] == 'r') {
                     // We have a root.
@@ -51,7 +50,7 @@ namespace emel_lang {
                         root_string += source[j];
                     }
                     // Add the coefficient to the list.
-                    coefficients.push_back(Coefficient{std::stod(coefficient_string), 1 / std::stoi(root_string)});
+                    coefficients.push_back(Coefficient{std::stod(coefficient_string), (unsigned)std::stoi(root_string)});
                     coefficient_string = "";
 
                 } else if (isalpha(source[i])) {
@@ -67,10 +66,10 @@ namespace emel_lang {
                 } else {
                     coefficient_string += source[i];
                 }
-
-
-}
-
-
+            }
+            // return the term.
+            return Term{coefficients, variable};
         }
 
+    }
+}

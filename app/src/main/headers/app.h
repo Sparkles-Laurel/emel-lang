@@ -5,17 +5,10 @@
 #define EMEL_LANG_H
 
 #include <string>
+#include <vector>
 
 namespace emel_lang {
     namespace tokens {
-        /// <summary>
-        /// Represents a token.
-        /// </summary>
-        class Token(TokenType type, std::string value, int line, int column);
-
-        /// <summary>
-        /// Represents a token type.
-        /// </summary>
         enum class TokenType {
             // Token bait.
             __BAITED,
@@ -41,6 +34,17 @@ namespace emel_lang {
             // End of file.
             __EOF
         };
+
+        class Token {
+        public:
+            Token(TokenType type, std::string text, int line, int column) : type(type), text(text), line(line), column(column) {};
+            TokenType type;
+            std::string text;
+            int line;
+            int column;
+        };
+
+        
         /// <summary>
         /// Represents a stream of tokens.
         /// </summary>

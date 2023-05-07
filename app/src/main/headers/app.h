@@ -9,8 +9,14 @@
 
 namespace emel_lang {
     namespace tokens {
+        /// <summary>
+        /// Represents a token type.
+        /// </summary>
         enum class TokenType {
             // Token bait.
+            /// <summary>
+            /// Represents a token which is invalid.
+            /// </summary>
             __BAITED,
 
             // Single-character tokens.
@@ -50,9 +56,24 @@ namespace emel_lang {
         /// </summary>
         class TokenStream {
         public:
+            /// <summary>
+            /// Constructs a token stream from a string.
+            /// </summary>
             TokenStream(std::string source);
+
+            /// <summary>
+            /// Gets the next token in the stream.
+            /// </summary>
             Token next();
+
+            /// <summary>
+            /// Peeks at the next token in the stream.
+            /// </summary>
             Token peek();
+
+            /// <summary>
+            /// Checks if the stream is at the end.
+            /// </summary>
             bool isAtEnd();
         private:
             bool __process_string();
@@ -65,6 +86,9 @@ namespace emel_lang {
         /// </summary>
         class BaitedToken: public Token {
         public:
+            /// <summary>
+            /// Constructs a token which is invalid.
+            /// </summary>
             BaitedToken(std::string text, int line, int column) : Token(TokenType::__BAITED, text, line, column) {}
         };
     }

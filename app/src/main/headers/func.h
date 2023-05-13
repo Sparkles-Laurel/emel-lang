@@ -7,6 +7,8 @@
 #include "set.h"
 #include <optional>
 #include <string>
+#include <stdarg.h>
+
 namespace emel_lang {
     namespace data {
         /// <summary>
@@ -47,6 +49,9 @@ namespace emel_lang {
                 /// <param name="args">The arguments to evaluate the function at.</param>
                 /// </summary>
                 Polynomial eval(std::vector<Polynomial> args);
+
+                // operator() - evaluates the function at a point.
+                Polynomial operator()(...);
         };
     }
 }

@@ -3,6 +3,7 @@
 #include <string>
 #include <optional>
 #include <ctype.h>
+#include <stdarg.h>
 
 namespace emel_lang {
     namespace data {
@@ -56,7 +57,14 @@ namespace emel_lang {
                 /// Parses a polynomial from a string.
                 /// <param name="source">The string to parse.</param>
                 /// </summary>
-                static Polynomial Parse(std::string source);
+                static Polynomial parse(std::string source);
+
+                /// <summary>
+                /// Evaluates the polynomial at a point. Accepts variadic arguments.
+                /// <param name="args">The arguments to evaluate the polynomial at.</param>
+                /// </summary>
+                Polynomial operator()(...);
+
         };
     }
 }

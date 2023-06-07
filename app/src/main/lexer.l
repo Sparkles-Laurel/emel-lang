@@ -29,28 +29,28 @@
 %%
 [a-zA-Z][a-zA-Z0-9]* {
     yylval.str = strdup(yytext);
-    if(strcmp(yytext, "if") == 0) return IF;
-    else if(strcmp(yytext, "is") == 0) return IS;
-    else if(strcmp(yytext, "then") == 0) return THEN;
-    else if(strcmp(yytext, "else") == 0) return ELSE;
-    else if(strcmp(yytext, "and") == 0) return AND;
-    else if(strcmp(yytext, "or") == 0) return OR;
-    else if(strcmp(yytext, "not") == 0) return NOT;
-    else if(strcmp(yytext, "set") == 0) return SET;
-    else if(strcmp(yytext, "fn") == 0) return FN;
-    else if(strcmp(yytext, "let") == 0) return LET;
-    else if(strcmp(yytext, "bool") == 0) return BOOL;
-    else if(strcmp(yytext, "real") == 0) return REAL;
-    else if(strcmp(yytext, "integer") == 0) return INTEGER;
-    else if(strcmp(yytext, "natural") == 0) return NATURAL;
-    else if(strcmp(yytext, "rational") == 0) return RATIONAL;
-    else if(strcmp(yytext, "imaginary") == 0) return IMAGINARY;
-    else if(strcmp(yytext, "complex") == 0) return COMPLEX;
-    else if(strcmp(yytext, "type") == 0) return TYPE;
-    else if(strcmp(yytext, "sqrt") == 0 || strcmp(yytext, "root") == 0 || strcmp(yytext, "rt") == 0) return ROOT;
-    else if(strcmp(yytext, "pw")) return POWER;
+    if(!strcmp(yytext, "if")) return IF;
+    else if(!strcmp(yytext, "is")) return IS;
+    else if(!strcmp(yytext, "then")) return THEN;
+    else if(!strcmp(yytext, "else")) return ELSE;
+    else if(!strcmp(yytext, "and")) return AND;
+    else if(!strcmp(yytext, "or")) return OR;
+    else if(!strcmp(yytext, "not")) return NOT;
+    else if(!strcmp(yytext, "set")) return SET;
+    else if(!strcmp(yytext, "fn")) return FN;
+    else if(!strcmp(yytext, "let")) return LET;
+    else if(!strcmp(yytext, "bool")) return BOOL;
+    else if(!strcmp(yytext, "R")) return REAL;
+    else if(!strcmp(yytext, "Z")) return INTEGER;
+    else if(!strcmp(yytext, "N")) return NATURAL;
+    else if(!strcmp(yytext, "Q")) return RATIONAL;
+    else if(!strcmp(yytext, "i") || !strcmp(yytext, "j")) return IMAGINARY;
+    else if(!strcmp(yytext, "C")) return COMPLEX;
+    else if(!strcmp(yytext, "type")) return TYPE;
+    else if(!strcmp(yytext, "rt")) return ROOT;
+    else if(!strcmp(yytext, "pw") || !strcmp(yytext, "^")) return POWER;
  
-    else if(strcmp(yytext, "poly") == 0) return POLY;
+    else if(strcmp(!yytext, "poly")) return POLY;
     else yylval.str = strdup(yytext);
     return IDENTIFIER;
 }
